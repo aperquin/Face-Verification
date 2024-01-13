@@ -1,5 +1,11 @@
 # Face-Verification
 
+This repo be ran using docker.
+First, alter the docker compose file to point the volumes toward the correct location on your system :
+- volume1 = 
+- volume2 = 
+[...]
+
 Example to run the docker container :
 
 ```powershell

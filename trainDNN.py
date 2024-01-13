@@ -1,6 +1,6 @@
 # %%
-from src.Dataset import YouTubeFacesDataset
-from src.Models import FaceVerificationModel, fixed_image_standardization
+from src.Dataset import YouTubeFacesDatasetTorch
+from src.ModelsDNN import FaceVerificationModel, fixed_image_standardization
 from torch.utils.data import DataLoader
 from torchsummary import summary
 from pathlib import Path
@@ -14,15 +14,16 @@ batch_size = 32
 nb_epoch = 20
 
 # %% Load the data
-train_dataset = YouTubeFacesDataset(metadata_train_filepath)
+train_dataset = YouTubeFacesDatasetTorch(metadata_train_filepath, resize_size=160)
 train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
-test_dataset = YouTubeFacesDataset(metadata_test_filepath)
+test_dataset = YouTubeFacesDatasetTorch(metadata_test_filepath, resize_size=160)
 test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True)
 
 # %% Load the model (pre-trained embedding model + from-scratch classifier)
 model = FaceVerificationModel()
 model.freeze_embedding_model()
+model.eval() # To deactivate the Dropout layers in ResNet
 
 # Print a summary of the model
 summary(model, input_data=[torch.zeros(batch_size, 3, 256, 256), torch.zeros(batch_size, 3, 256, 256)])

@@ -20,7 +20,7 @@ class ClassifierNeuralNetwork(torch.nn.Module):
 class FaceVerificationModel(torch.nn.Module):
     def __init__(self) -> None:
         super().__init__()
-        self.embedding_model = InceptionResnetV1(pretrained='vggface2', classify=False).eval()
+        self.embedding_model = InceptionResnetV1(pretrained='vggface2', classify=False)
         self.classifier = ClassifierNeuralNetwork(dim_embedding=512)
 
     def forward(self, batch_img_1: torch.Tensor, batch_img_2:torch.Tensor) -> torch.Tensor:
@@ -45,10 +45,10 @@ class FaceVerificationModel(torch.nn.Module):
 if __name__ == "__main__":
     # %%
     from pathlib import Path
-    from Dataset import YouTubeFacesDataset
+    from Dataset import YouTubeFacesDatasetTorch
 
     input_folderpath = Path("/output/metadata.csv")
-    dataset = YouTubeFacesDataset(input_folderpath)
+    dataset = YouTubeFacesDatasetTorch(input_folderpath)
     img_1, img_2, label = dataset[-10]
     print(img_1.unsqueeze(0).shape)
     

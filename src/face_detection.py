@@ -3,7 +3,7 @@ from facenet_pytorch import MTCNN, InceptionResnetV1
 from torchvision.transforms import ToPILImage
 from PIL import Image
 from torchvision.io import read_image
-from Dataset import YouTubeFacesDataset, show_tensor_image
+from Dataset import YouTubeFacesDatasetTorch, show_tensor_image
 import torch
 
 def fixed_image_standardization(image_tensor):
@@ -36,7 +36,7 @@ mtcnn = MTCNN(image_size=image_size, margin=margin, post_process=True)
 resnet = InceptionResnetV1(pretrained='vggface2').eval()
 
 # %%
-dataset = YouTubeFacesDataset(input_folderpath)
+dataset = YouTubeFacesDatasetTorch(input_folderpath)
 img_1, img_2, label = dataset[-10]
 show_tensor_image(img_1)
 
