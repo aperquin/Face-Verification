@@ -62,10 +62,10 @@ def print_performance(model:LinearSVC, cosine_dists:np.ndarray, gt_labels:np.nda
 
 if __name__ == "__main__":
     # %% Parameters of the script
-    parser = argparse.ArgumentParser(description='Process some integers.')
-    parser.add_argument('--metadata_train_filepath', type=str, help='Path to the metadata listing the training data.', default="/output/train_metadata.csv")
-    parser.add_argument('--metadata_test_filepath', type=str, help='Path to the metadata listing the test data.', default="/output/test_metadata.csv")
-    parser.add_argument('--save_model_filepath', type=str, help='Path to save the resulting classifier.', default="/output/svm_classifier.pkl")
+    parser = argparse.ArgumentParser(description='Train a Linear SVM classifier to predict the "same"/"different" label from the cosine distance between two face embeddings.')
+    parser.add_argument('metadata_train_filepath', type=str, help='Path to the metadata listing the training data.')
+    parser.add_argument('metadata_test_filepath', type=str, help='Path to the metadata listing the test data.')
+    parser.add_argument('save_model_filepath', type=str, help='Path to save the resulting classifier.')
     parser.add_argument('--image_size_resnet', type=int, help='The size images will be resized to before being fed to ResNet.', default=160)
 
     args = parser.parse_args()

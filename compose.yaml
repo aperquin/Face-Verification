@@ -6,5 +6,4 @@ services:
     volumes:
       - C:\Users\antoi\Downloads\YouTubeFaces\:/dataset:ro # Path to the dataset(s)
       - .\container_output\:/output # Path to a folder to save the results of the computations
-      - .:/workspace/ # Path to the repo containing the code written for this test
-      - C:\Users\antoi\Downloads\facenet-models\20180402-114759:/models:ro # Path to the models
+      - .:/workspace/ # Path to this repo
