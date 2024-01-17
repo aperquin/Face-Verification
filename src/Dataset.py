@@ -11,16 +11,20 @@ import torch
 
 # %%
 class YouTubeFacesDatasetAbstract(Dataset, ABC):
-    def __init__(self, metadata_filepath:Path, crop:bool=True, resize:bool=True, resize_size:int=256) -> None:
+    def __init__(self, metadata_filepath:Path, crop:bool=True, resize:bool=True, resize_size:int=256, return_metadata=False) -> None:
         self.metadata = pd.read_csv(metadata_filepath)
         self.crop = crop
         self.resize = resize
         self.resize_size = resize_size
+        self.return_metadata = return_metadata
 
     def __getitem__(self, index:int) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         filepath_1, x_1, y_1, width_1, height_1 = list(self.metadata.iloc[index][["filepath_1", 'x_1', 'y_1', 'width_1', 'height_1']])
         filepath_2, x_2, y_2, width_2, height_2 = list(self.metadata.iloc[index][["filepath_2", 'x_2', 'y_2', 'width_2', 'height_2']])
         label = self.metadata.iloc[index]["label"]
+
+        if self.return_metadata:
+            metadata = self.metadata.iloc[index][["subject_name_1", "subject_name_2", "gender_1", "gender_2"]]
 
         img_1 = self.open_img(filepath_1)
         img_2 = self.open_img(filepath_2)
@@ -33,7 +37,10 @@ class YouTubeFacesDatasetAbstract(Dataset, ABC):
             img_1 = self.resize_img(img_1)
             img_2 = self.resize_img(img_2)
 
-        return img_1, img_2, label
+        if self.return_metadata:
+            return img_1, img_2, label, metadata.to_dict()
+        else:
+            return img_1, img_2, label
     
     def __len__(self) -> int:
         return len(self.metadata)
